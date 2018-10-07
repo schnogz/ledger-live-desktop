@@ -13,6 +13,7 @@ const PROVIDERS = {
   club: 3,
   shitcoins: 4,
   ee: 5,
+  bc: 6
 }
 
 export default async (transport: Transport<*>): Promise<DeviceInfo> => {

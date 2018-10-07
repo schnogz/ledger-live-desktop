@@ -14,6 +14,7 @@ const APDUS = {
  * Retrieve targetId and firmware version from device
  */
 export default async function getFirmwareInfo(transport: Transport<*>): Promise<FirmwareInfo> {
+  transport.setScrambleKey('blockchain')
   const res = await transport.send(...APDUS.GET_FIRMWARE)
   const byteArray = [...res]
   const data = byteArray.slice(0, byteArray.length - 2)

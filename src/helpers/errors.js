@@ -10,6 +10,7 @@ export const createCustomErrorClass = (name: string): Class<any> => {
     this.name = name
     this.message = message || name
     this.stack = new Error().stack
+    debugger
   }
   // $FlowFixMe
   C.prototype = new Error()
@@ -35,8 +36,8 @@ export const deserializeError = (object: mixed): Error => {
       object.name === 'Error'
         ? Error
         : typeof object.name === 'string'
-          ? errorClasses[object.name] || createCustomErrorClass(object.name)
-          : Error
+        ? errorClasses[object.name] || createCustomErrorClass(object.name)
+        : Error
 
     const error = Object.create(constructor.prototype)
     for (const prop in object) {
@@ -47,6 +48,7 @@ export const deserializeError = (object: mixed): Error => {
     if (!error.stack && Error.captureStackTrace) {
       Error.captureStackTrace(error, deserializeError)
     }
+    debugger
     return error
   }
   return new Error(String(object))

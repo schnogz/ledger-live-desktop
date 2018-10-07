@@ -1,3 +1,4 @@
+/.idea
 /.env
 /dist/
 /flow-typed/
@@ -10,5 +11,3 @@
 /build/linux/arch/src
 /build/linux/arch/*.tar.gz
 /build/linux/arch/*.tar.xz
-
-/test-e2e/sync/data/actual_app.json

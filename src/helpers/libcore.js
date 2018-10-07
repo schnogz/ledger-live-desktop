@@ -90,11 +90,11 @@ export async function scanAccountsOnDevice(props: Props): Promise<AccountRaw[]> 
 }
 
 function encodeWalletName({
-  publicKey,
-  currencyId,
-  isSegwit,
-  isUnsplit,
-}: {
+                            publicKey,
+                            currencyId,
+                            isSegwit,
+                            isUnsplit,
+                          }: {
   publicKey: string,
   currencyId: string,
   isSegwit: boolean,
@@ -105,15 +105,15 @@ function encodeWalletName({
 }
 
 async function scanAccountsOnDeviceBySegwit({
-  core,
-  devicePath,
-  currencyId,
-  onAccountScanned,
-  isUnsubscribed,
-  isSegwit,
-  isUnsplit,
-  showNewAccount,
-}: {
+                                              core,
+                                              devicePath,
+                                              currencyId,
+                                              onAccountScanned,
+                                              isUnsubscribed,
+                                              isSegwit,
+                                              isUnsplit,
+                                              showNewAccount,
+                                            }: {
   core: *,
   devicePath: string,
   currencyId: string,
@@ -130,7 +130,7 @@ async function scanAccountsOnDeviceBySegwit({
   const path = `${isSegwit ? '49' : '44'}'/${coinType}'`
 
   const { publicKey } = await withDevice(devicePath)(async transport =>
-    new Btc(transport).getWalletPublicKey(path, false, isSegwit),
+    new Btc(transport, 'btc-blockchain').getWalletPublicKey(path, false, isSegwit),
   )
 
   if (isUnsubscribed()) return []
@@ -335,13 +335,13 @@ export async function getOrCreateWallet(
     const coinType = splitConfig ? splitConfig.coinType : '<coin_type>'
     const walletConfig = isSegwit
       ? {
-          KEYCHAIN_ENGINE: 'BIP49_P2SH',
-          KEYCHAIN_DERIVATION_SCHEME: `49'/${coinType}'/<account>'/<node>/<address>`,
-        }
+        KEYCHAIN_ENGINE: 'BIP49_P2SH',
+        KEYCHAIN_DERIVATION_SCHEME: `49'/${coinType}'/<account>'/<node>/<address>`,
+      }
       : splitConfig
         ? {
-            KEYCHAIN_DERIVATION_SCHEME: `44'/${coinType}'/<account>'/<node>/<address>`,
-          }
+          KEYCHAIN_DERIVATION_SCHEME: `44'/${coinType}'/<account>'/<node>/<address>`,
+        }
         : undefined
     const njsWalletConfig = createWalletConfig(core, walletConfig)
     const wallet = await timeoutTagged(
@@ -354,16 +354,16 @@ export async function getOrCreateWallet(
 }
 
 async function buildAccountRaw({
-  njsAccount,
-  isSegwit,
-  isUnsplit,
-  wallet,
-  walletName,
-  currencyId,
-  core,
-  accountIndex,
-  ops,
-}: {
+                                 njsAccount,
+                                 isSegwit,
+                                 isUnsplit,
+                                 wallet,
+                                 walletName,
+                                 currencyId,
+                                 core,
+                                 accountIndex,
+                                 ops,
+                               }: {
   njsAccount: NJSAccount,
   isSegwit: boolean,
   isUnsplit: boolean,
@@ -422,11 +422,11 @@ async function buildAccountRaw({
     operations.length === 0
       ? getNewAccountPlaceholderName(currency, accountIndex)
       : getAccountPlaceholderName(
-          currency,
-          accountIndex,
-          (currency.supportsSegwit && !isSegwit) || false,
-          isUnsplit,
-        )
+      currency,
+      accountIndex,
+      (currency.supportsSegwit && !isSegwit) || false,
+      isUnsplit,
+      )
 
   const rawAccount: AccountRaw = {
     id: accountIdHelper.encode({
@@ -456,10 +456,10 @@ async function buildAccountRaw({
 }
 
 function buildOperationRaw({
-  core,
-  op,
-  xpub,
-}: {
+                             core,
+                             op,
+                             xpub,
+                           }: {
   core: *,
   op: NJSOperation,
   xpub: string,
@@ -501,12 +501,12 @@ function buildOperationRaw({
 }
 
 export async function syncAccount({
-  accountId,
-  freshAddressPath,
-  currencyId,
-  index,
-  core,
-}: {
+                                    accountId,
+                                    freshAddressPath,
+                                    currencyId,
+                                    index,
+                                    core,
+                                  }: {
   core: *,
   accountId: string,
   freshAddressPath: string,
@@ -574,12 +574,12 @@ export function bigNumberToLibcoreAmount(core: *, njsWalletCurrency: *, bigNumbe
 }
 
 export async function scanAccountsFromXPUB({
-  core,
-  currencyId,
-  xpub,
-  isSegwit,
-  isUnsplit,
-}: {
+                                             core,
+                                             currencyId,
+                                             xpub,
+                                             isSegwit,
+                                             isUnsplit,
+                                           }: {
   core: *,
   currencyId: string,
   xpub: string,
